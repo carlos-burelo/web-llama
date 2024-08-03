@@ -59,8 +59,7 @@ function addMessage(text, sender) {
     const $clonedTemplate = $msg.cloneNode(true)
     const $newMessage = $clonedTemplate.querySelector('.msg')
     $newMessage.classList.add(sender)
-    let html = snarkdown(text)
-    $newMessage.innerHTML = html
+    $newMessage.textContent = text
     $chat.appendChild($clonedTemplate)
     $chat.scrollTop = $chat.scrollHeight
 
