@@ -3,8 +3,8 @@ const urlsToCache = [
     '/',
     '/index.html',
     '/index.html',
-    '/icon-192x192.avif',
-    '/icon-512x512.avif',
+    '/icon-192x192.png',
+    '/icon-512x512.png',
     '/main.js',
     '/libs/snarkdown.js',
     '/libs/webllm.js'
