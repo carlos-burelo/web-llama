@@ -1,0 +1,127 @@
+:root {
+    --primary-color: cornflowerblue;
+    --margin-inline: 1em;
+    --background-input: #1c1c1c;
+    --border-color: #252525;
+    --border-color-hover: #393939;
+    --text-obscured: #999;
+
+    @media (width > 768px) {
+        --margin-inline: 5em;
+    }
+
+    @media (width > 1024px) {
+        --margin-inline: 18em;
+    }
+
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color-scheme: dark;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    padding: 2em var(--margin-inline);
+    position: relative;
+    width: 100dvw;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 60px
+}
+
+textarea {
+    resize: none;
+    background-color: var(--background-input);
+    border: solid 1px var(--border-color);
+    border-radius: .75em;
+    field-sizing: content;
+    width: 100%;
+    padding: 1em;
+
+    &:focus {
+        outline: none;
+        border-color: var(--border-color-hover);
+    }
+}
+
+section {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    gap: 1em;
+}
+
+mark {
+    background-color: inherit;
+    color: inherit;
+    text-align: center;
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 1em;
+}
+
+mark::before {
+    content: '';
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+mark::after {
+    content: attr(data-info);
+    font-size: .75em;
+    color: var(--text-obscured);
+}
+
+pre {
+    display: grid;
+    background-color: var(--background-input);
+    padding: 1em;
+}
+
+code {
+    font-family: monospace;
+    font-size: .9em;
+}
+
+p,
+div {
+    line-height: 1.8;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.msg {
+    padding: 1em;
+    border-radius: .75em;
+    width: fit-content;
+    height: fit-content;
+    max-width: 90%;
+    display: grid;
+    gap: 1em;
+}
+
+
+.user {
+    background-color: var(--background-input);
+    text-align: right;
+    justify-self: end;
+}
+
+.bot {
+    text-align: left;
+    justify-self: start;
+}
