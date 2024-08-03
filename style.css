@@ -1,8 +1,11 @@
 :root {
     --primary-color: cornflowerblue;
     --margin-inline: 1em;
-    --background-input: #1c1c1c;
-    --border-color: #252525;
+    --background-color: #0b0d14;
+        --background-pre: #13151f;
+        --background-card: #13151f;
+        --background-input: #13151f;
+        --border-color: #20242d;
     --border-color-hover: #393939;
     --text-obscured: #999;
 
@@ -16,6 +19,16 @@
 
 }
 
+*::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: var(--border-color)
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
 * {
     padding: 0;
     margin: 0;
@@ -24,13 +37,17 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
 body {
     padding: 2em var(--margin-inline);
     position: relative;
     width: 100dvw;
     height: 100dvh;
     display: grid;
-    grid-template-rows: auto 60px
+    grid-template-rows: auto 60px;
+        background-color: var(--background-color);
 }
 
 textarea {
@@ -49,12 +66,18 @@ textarea {
 }
 
 section {
+    padding: 1em;
     width: 100%;
     height: 100%;
     display: grid;
+    overflow-x: hidden;
+        overflow-y: auto;
     gap: 1em;
 }
 
+li {
+    list-style-position: inside;
+}
 mark {
     background-color: inherit;
     color: inherit;
@@ -84,18 +107,22 @@ mark::after {
 
 pre {
     display: grid;
-    background-color: var(--background-input);
+    background-color: var(--background-pre);
+        border-radius: .75em;
     padding: 1em;
+    border: solid 1px var(--border-color);
 }
 
 code {
     font-family: monospace;
     font-size: .9em;
+    display: grid;
+        overflow-x: auto;
 }
 
 p,
 div {
-    line-height: 1.8;
+    line-height: 1.9;
 }
 
 @keyframes spin {
@@ -105,23 +132,21 @@ div {
 }
 
 .msg {
-    padding: 1em;
     border-radius: .75em;
     width: fit-content;
     height: fit-content;
-    max-width: 90%;
     display: grid;
     gap: 1em;
 }
 
 
 .user {
-    background-color: var(--background-input);
-    text-align: right;
+    background-color: var(--background-card);
     justify-self: end;
+    max-width: 90%;
+        padding: 1em;
 }
 
 .bot {
-    text-align: left;
     justify-self: start;
 }

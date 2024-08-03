@@ -23,7 +23,7 @@ const engine = await CreateWebWorkerMLCEngine(
             if (progress === 1 && !end) {
                 end = true
                 $info.remove()
-                addMessage('Modelo cargado. ¡Hola! ¿En qué puedo ayudarte?', 'bot')
+                addMessage('Modelo cargado. ¡Hola! ¿En qué puedo ayudarte?', 'assistant')
                 $input.focus()
             }
         }
@@ -43,18 +43,15 @@ $input.addEventListener('keydown', async e => {
             stream: true
         })
         let reply = ''
-        const $botMessage = addMessage("", 'bot')
+        const $botMessage = addMessage("", 'assistant')
         for await (const chunk of chunks) {
             const choice = chunk.choices[0]
             const content = choice?.delta?.content ?? ""
             reply += content
             $botMessage.innerHTML = snarkdown(reply)
         }
-
-        messages.push({ role: 'bot', content: reply })
-
-
-        $chat.scrollTo(0, $chat.scrollHeight)
+        messages.push({ role: 'assistant', content: reply })
+        $chat.scrollTop = $chat.scrollHeight
     }
 })
 
@@ -65,7 +62,7 @@ function addMessage(text, sender) {
     let html = snarkdown(text)
     $newMessage.innerHTML = html
     $chat.appendChild($clonedTemplate)
-    $chat.scrollTo(0, $chat.scrollHeight)
+    $chat.scrollTop = $chat.scrollHeight
 
     return $newMessage
 }
