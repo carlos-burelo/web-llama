@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mi-pwa-cache-v1';
+const CACHE_NAME = 'coatl-cache-v1';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -10,20 +10,33 @@ const urlsToCache = [
     '/libs/webllm.js'
 ];
 
-self.addEventListener('install', function (event) {
+
+self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(function (cache) {
-                console.log('Archivos cacheados con éxito');
-                return cache.addAll(urlsToCache);
+            .then(async (cache) => {
+                console.log('Abriendo caché');
+                try {
+                    await Promise.all(
+                        urlsToCache.map(async (url) => {
+                            const response = await cache.match(url);
+                            if (!response) {
+                                await cache.add(url);
+                            }
+                        })
+                    );
+                    console.log('Archivos cacheados con éxito');
+                } catch (error) {
+                    console.error('Error en la instalación del Service Worker:', error);
+                }
             })
     );
 });
 
-self.addEventListener('fetch', function (event) {
+self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
-            .then(function (response) {
+            .then((response) => {
                 if (response) {
                     return response;
                 }
@@ -32,14 +45,13 @@ self.addEventListener('fetch', function (event) {
     );
 });
 
-self.addEventListener('activate', function (event) {
-    const cacheWhitelist = [CACHE_NAME];
+self.addEventListener('activate', (event) => {
     event.waitUntil(
-        caches.keys().then(function (cacheNames) {
-            return Promise.all(
-                cacheNames.map(function (cacheName) {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        return caches.delete(cacheName);
+        caches.keys().then(async (cacheNames) => {
+            await Promise.all(
+                cacheNames.map(async (cacheName) => {
+                    if (cacheName !== CACHE_NAME) {
+                        await caches.delete(cacheName);
                     }
                 })
             );
