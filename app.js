@@ -2,7 +2,9 @@ const CACHE_NAME = 'mi-pwa-cache-v1';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/style.css',
+    '/index.html',
+    '/icon-192x192.avif',
+    '/icon-512x512.avif',
     '/main.js',
     '/libs/snarkdown.js',
     '/libs/webllm.js'
