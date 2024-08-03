@@ -27,6 +27,9 @@ const engine = await CreateWebWorkerMLCEngine(
                 $input.focus()
             }
         }
+    },
+    {
+        context_window_size: 4096
     }
 )
 
