@@ -22,12 +22,5 @@
   "categories": [
     "productivity"
   ],
-  "dir": "auto",
-  "display_override": [
-    "browser",
-    "minimal-ui",
-    "fullscreen",
-    "standalone",
-    "window-controls-overlay"
-  ]
+  "dir": "auto"
 }
