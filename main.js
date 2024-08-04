@@ -3,10 +3,13 @@ import { CreateWebWorkerMLCEngine } from './libs/webllm.js';
 
 const $ = el => document.querySelector(el)
 
+
+const $container = $('main')
 const $chat = $('section')
 const $input = $('textarea')
 const $msg = $('template').content
 const $info = $('mark')
+const $send = $('button')
 
 const messages = []
 let end = false
@@ -23,22 +26,22 @@ const engine = await CreateWebWorkerMLCEngine(
             if (progress === 1 && !end) {
                 end = true
                 $info.remove()
+                $send.removeAttribute('disabled')
                 addMessage('Modelo cargado. ¡Hola! ¿En qué puedo ayudarte?', 'assistant')
                 $input.focus()
             }
         }
     },
     {
-        context_window_size: 4096
+        context_window_size: 6144
     }
 )
 
-$input.addEventListener('keydown', async e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault()
-        const text = $input.value.trim()
+$send.addEventListener('click', async () => {
+    const text = $input.value.trim()
         if (text.length == 0) return
         addMessage(text, 'user')
+    $send.setAttribute('disabled', '')
         messages.push({ content: text, role: 'user' })
         $input.value = ''
         const chunks = await engine.chat.completions.create({
@@ -52,11 +55,13 @@ $input.addEventListener('keydown', async e => {
             const content = choice?.delta?.content ?? ""
             reply += content
             $botMessage.innerHTML = snarkdown(reply)
+            $container.scrollTop = $container.scrollHeight
         }
         messages.push({ role: 'assistant', content: reply })
-        $chat.scrollTop = $chat.scrollHeight
-    }
+    $send.removeAttribute('disabled')
+    $container.scrollTop = $container.scrollHeight
 })
+
 
 function addMessage(text, sender) {
     const $clonedTemplate = $msg.cloneNode(true)
@@ -64,7 +69,7 @@ function addMessage(text, sender) {
     $newMessage.classList.add(sender)
     $newMessage.textContent = text
     $chat.appendChild($clonedTemplate)
-    $chat.scrollTop = $chat.scrollHeight
+    $container.scrollTop = $container.scrollHeight
 
     return $newMessage
 }
